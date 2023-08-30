@@ -1,0 +1,57 @@
+import 'package:flutter/material.dart';
+import 'package:muasume_app/Worker/worker.dart';
+
+class Loading extends StatefulWidget {
+  const Loading({super.key});
+
+  @override
+  State<Loading> createState() => _LoadingState();
+}
+
+class _LoadingState extends State<Loading> {
+  String Temperature = 'loading';
+
+  void getValue() async {
+    find_Values instance = find_Values('Emiway bantai');
+    await instance.getData();
+    setState(() {
+      Temperature = instance.temp.toString();
+    });
+    print("\n Acsess the date from loading activity");
+    print(instance.temp);
+    print(instance.humidity);
+    print(instance.maain);
+    print(instance.decs);
+    print(instance.speed);
+  }
+
+  @override
+  void initState() {
+    getValue();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var temperature = Temperature;
+    return Scaffold(
+      backgroundColor: Colors.blueGrey,
+      body: Center(
+        child: TextButton.icon(
+            style: TextButton.styleFrom(backgroundColor: Colors.yellow),
+            onPressed: () {
+              Navigator.pushNamed(context, "/home");
+            },
+            icon: const Icon(
+              Icons.add_to_home_screen,
+              size: 40,
+              color: Colors.black,
+            ),
+            label: Text(
+              temperature,
+              style: const TextStyle(fontSize: 30, color: Colors.black),
+            )),
+      ),
+    );
+  }
+}
